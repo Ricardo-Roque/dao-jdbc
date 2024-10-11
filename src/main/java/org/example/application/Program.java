@@ -10,10 +10,9 @@ import java.sql.Connection;
 public class Program {
     public static void main(String[] args) {
 
-        Connection connection = DB.getConnection();
+        SellerDAO sellerDao = DAOFactory.createSellerDAO(DB.getConnection());
 
-        SellerDAO sellerDao = DAOFactory.createSellerDAO(connection);
-
+        System.out.println("=== TEST 1: seller findById ====");
         Seller seller = sellerDao.findById(3);
 
         System.out.println(seller);

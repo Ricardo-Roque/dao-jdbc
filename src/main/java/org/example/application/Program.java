@@ -1,18 +1,22 @@
 package org.example.application;
 
-import org.example.model.entities.Department;
+import org.example.db.DB;
+import org.example.model.dao.DAOFactory;
+import org.example.model.dao.SellerDAO;
 import org.example.model.entities.Seller;
 
-import java.util.Date;
+import java.sql.Connection;
 
 public class Program {
     public static void main(String[] args) {
 
-        Department department = new Department(1, "Books");
+        Connection connection = DB.getConnection();
 
-        Seller seller = new Seller(21, "Ricardo Roque", "ricardodebonaroque@gmail.com", new Date(), 3000.00, department);
+        SellerDAO sellerDao = DAOFactory.createSellerDAO(connection);
 
-        System.out.println(department);
+        Seller seller = sellerDao.findById(3);
+
         System.out.println(seller);
+
     }
 }

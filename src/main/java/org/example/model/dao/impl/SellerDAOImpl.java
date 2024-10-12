@@ -72,6 +72,7 @@ public class SellerDAOImpl implements SellerDAO {
             preparedStatement.setInt(5, seller.getDepartment().getId());
             preparedStatement.setInt(6, seller.getId());
 
+            preparedStatement.execute();
         } catch (SQLException exception) {
             throw new DbException(exception.getMessage());
         } finally {
@@ -81,6 +82,21 @@ public class SellerDAOImpl implements SellerDAO {
 
     @Override
     public void deleteById(Integer id) {
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM seller " +
+                    "WHERE Id = ?");
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.execute();
+
+        } catch (SQLException exception) {
+            throw new DbException(exception.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
+        }
 
     }
 

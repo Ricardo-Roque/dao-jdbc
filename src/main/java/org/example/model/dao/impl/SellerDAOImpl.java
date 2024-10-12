@@ -59,6 +59,24 @@ public class SellerDAOImpl implements SellerDAO {
     @Override
     public void update(Seller seller) {
 
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE seller " +
+                    "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " +
+                    "WHERE Id = ?");
+
+            preparedStatement.setString(1, seller.getName());
+            preparedStatement.setString(2, seller.getMail());
+            preparedStatement.setDate(3, new Date(seller.getBirthDate().getTime()));
+            preparedStatement.setDouble(4, seller.getBaseSalary());
+            preparedStatement.setInt(5, seller.getDepartment().getId());
+            preparedStatement.setInt(6, seller.getId());
+
+        } catch (SQLException exception) {
+            throw new DbException(exception.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
+        }
     }
 
     @Override
